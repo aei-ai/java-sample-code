@@ -4,9 +4,14 @@ import ai.aei.model.Status;
 import ai.aei.response.AeiResponse;
 import ai.aei.response.ApiCallResponse;
 import ai.aei.response.AuthResponse;
+import ai.aei.response.EmotionResponse;
 import ai.aei.response.InteractionResponse;
+import ai.aei.response.MoodResponse;
 import ai.aei.response.PaymentSourceListResponse;
 import ai.aei.response.PaymentSourceResponse;
+import ai.aei.response.PersonalityResponse;
+import ai.aei.response.SatisfactionResponse;
+import ai.aei.response.SocialPerceptionResponse;
 import ai.aei.response.SubscriptionResponse;
 import ai.aei.response.UserListResponse;
 import ai.aei.response.UserResponse;
@@ -178,7 +183,7 @@ public class AeiApi {
         // prepare headers
         Map<String, String> headers = authHeaders(accessToken);
 
-        // make an API call to the aEi.ai service to create a new interaction for given user IDs
+        // make an API call to the aEi.ai service to get an interaction with given ID
         try {
             return get(url, null, headers, new TypeReference<InteractionResponse>() {});
         } catch (Exception e) {
@@ -205,7 +210,7 @@ public class AeiApi {
         // prepare parameters
         String params = params("user_id", userIds);
 
-        // make an API call to the aEi.ai service to add a user to interaction
+        // make an API call to the aEi.ai service to add users to interaction
         try {
             return put(url + params, null, null, headers, new TypeReference<AeiResponse>() {});
         } catch (Exception e) {
@@ -219,7 +224,7 @@ public class AeiApi {
      *
      * @param userId Source user ID.
      * @param interactionId Target interaction ID.
-     * @param text User's
+     * @param text User's utterance.
      * @param accessToken Client's access token.
      * @return Response to sending a new text input to an interaction.
      */
@@ -261,7 +266,7 @@ public class AeiApi {
         // prepare headers
         Map<String, String> headers = authHeaders(accessToken);
 
-        // make an API call to the aEi.ai service to send the new user utterance to the interaction
+        // make an API call to the aEi.ai service to get a user with given ID
         try {
             return get(url, null, headers, new TypeReference<UserResponse>() {});
         } catch (Exception e) {
@@ -271,10 +276,125 @@ public class AeiApi {
     }
 
     /**
+     * Gets user's emotion with given user ID.
+     *
+     * @param userId Given user ID.
+     * @param accessToken Client's access token.
+     * @return Response to getting the user's emotion.
+     */
+    public static EmotionResponse getUserEmotion(String userId, String accessToken) {
+        // prepare URL
+        String url = API_URL + "/users/" + userId + "/emotion";
+
+        // prepare headers
+        Map<String, String> headers = authHeaders(accessToken);
+
+        // make an API call to the aEi.ai service to get user's emotion
+        try {
+            return get(url, null, headers, new TypeReference<EmotionResponse>() {});
+        } catch (Exception e) {
+            System.err.println("Getting user emotion failed: " + userId);
+            return null;
+        }
+    }
+
+    /**
+     * Gets user's mood with given user ID.
+     *
+     * @param userId Given user ID.
+     * @param accessToken Client's access token.
+     * @return Response to getting the user's mood.
+     */
+    public static MoodResponse getUserMood(String userId, String accessToken) {
+        // prepare URL
+        String url = API_URL + "/users/" + userId + "/mood";
+
+        // prepare headers
+        Map<String, String> headers = authHeaders(accessToken);
+
+        // make an API call to the aEi.ai service to get user's mood
+        try {
+            return get(url, null, headers, new TypeReference<MoodResponse>() {});
+        } catch (Exception e) {
+            System.err.println("Getting user mood failed: " + userId);
+            return null;
+        }
+    }
+
+    /**
+     * Gets user's personality with given user ID.
+     *
+     * @param userId Given user ID.
+     * @param accessToken Client's access token.
+     * @return Response to getting the user's personality.
+     */
+    public static PersonalityResponse getUserPersonality(String userId, String accessToken) {
+        // prepare URL
+        String url = API_URL + "/users/" + userId + "/personality";
+
+        // prepare headers
+        Map<String, String> headers = authHeaders(accessToken);
+
+        // make an API call to the aEi.ai service to get user's personality
+        try {
+            return get(url, null, headers, new TypeReference<PersonalityResponse>() {});
+        } catch (Exception e) {
+            System.err.println("Getting user personality failed: " + userId);
+            return null;
+        }
+    }
+
+    /**
+     * Gets user's satisfaction with given user ID.
+     *
+     * @param userId Given user ID.
+     * @param accessToken Client's access token.
+     * @return Response to getting the user's satisfaction.
+     */
+    public static SatisfactionResponse getUserSatisfaction(String userId, String accessToken) {
+        // prepare URL
+        String url = API_URL + "/users/" + userId + "/satisfaction";
+
+        // prepare headers
+        Map<String, String> headers = authHeaders(accessToken);
+
+        // make an API call to the aEi.ai service to get user's satisfaction
+        try {
+            return get(url, null, headers, new TypeReference<SatisfactionResponse>() {});
+        } catch (Exception e) {
+            System.err.println("Getting user satisfaction failed: " + userId);
+            return null;
+        }
+    }
+
+    /**
+     * Gets user's social-perception with given user ID.
+     *
+     * @param userId Given user ID.
+     * @param accessToken Client's access token.
+     * @return Response to getting the user's social-perception.
+     */
+    public static SocialPerceptionResponse getUserSocialPerception(String userId, String accessToken) {
+        // prepare URL
+        String url = API_URL + "/users/" + userId + "/social-perception";
+
+        // prepare headers
+        Map<String, String> headers = authHeaders(accessToken);
+
+        // make an API call to the aEi.ai service to get user's social-perception
+        try {
+            return get(url, null, headers, new TypeReference<SocialPerceptionResponse>() {});
+        } catch (Exception e) {
+            System.err.println("Getting user social-perception failed: " + userId);
+            return null;
+        }
+    }
+
+    /**
      * Gets list of all aEi.ai users of the client.
      *
      * @param accessToken Client's access token.
-     * @return Response to getting the aEi.ai user.
+     * @return Response to getting list of all client's users.
      */
     public static UserListResponse getUserList(String accessToken) {
         // prepare URL
@@ -283,7 +403,7 @@ public class AeiApi {
         // prepare headers
         Map<String, String> headers = authHeaders(accessToken);
 
-        // make an API call to the aEi.ai service to send the new user utterance to the interaction
+        // make an API call to the aEi.ai service to get list of all client's users
         try {
             return get(url, null, headers, new TypeReference<UserListResponse>() {});
         } catch (Exception e) {
@@ -372,7 +492,7 @@ public class AeiApi {
         // prepare headers
         Map<String, String> headers = authHeaders(accessToken);
 
-        // make an API call to the aEi.ai service to get payment methods information
+        // make an API call to the aEi.ai service to get a payment method with given ID
         try {
             return get(url, null, headers, new TypeReference<PaymentSourceResponse>() {});
         } catch (Exception e) {
@@ -384,12 +504,13 @@ public class AeiApi {
     /**
      * Adds a payment source ID (previously generated via Stripe API) to the client account.
      *
+     * @param sourceId Payment source ID.
      * @param accessToken Client's access token.
      * @return Response to adding a payment source ID to client account.
      */
-    public static AeiResponse addPaymentSource(String source, String accessToken) {
+    public static AeiResponse addPaymentSource(String sourceId, String accessToken) {
         // prepare URL
-        String url = API_URL + "/sources/" + source;
+        String url = API_URL + "/sources/" + sourceId;
 
         // prepare headers
         Map<String, String> headers = authHeaders(accessToken);
@@ -404,7 +525,7 @@ public class AeiApi {
     }
 
     /**
-     * Get the subscription information for given customer
+     * Get the subscription information for given customer.
      *
      * @param accessToken Client's access token.
      * @return Response to getting subscription information.
@@ -416,7 +537,7 @@ public class AeiApi {
         // prepare headers
         Map<String, String> headers = authHeaders(accessToken);
 
-        // make an API call to the aEi.ai service to get payment methods information
+        // make an API call to the aEi.ai service to get client's subscription information
         try {
             return get(url, null, headers, new TypeReference<SubscriptionResponse>() {});
         } catch (Exception e) {
@@ -466,7 +587,7 @@ public class AeiApi {
         // prepare headers
         Map<String, String> headers = authHeaders(accessToken);
 
-        // make an API call to the aEi.ai service to update the subscription
+        // make an API call to the aEi.ai service to delete the source with given ID
         try {
             return del(url, null, headers, new TypeReference<AeiResponse>() {});
         } catch (Exception e) {
@@ -543,7 +664,7 @@ public class AeiApi {
         Map<String, String> params = new HashMap<>();
         params.put("email", email);
 
-        // make an API call to the aEi.ai service to reset password
+        // make an API call to the aEi.ai service to send reset password email
         try {
             return post(url, null, params, null, new TypeReference<AeiResponse>() {});
         } catch (Exception e) {
