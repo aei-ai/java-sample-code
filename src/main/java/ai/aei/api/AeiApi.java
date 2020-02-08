@@ -240,12 +240,32 @@ public class AeiApi {
         params.put("user_id", userId);
         params.put("interaction_id", interactionId);
 
-        // prepare body
-        String body = "{text: " + text + "}";
+        // make an API call to the aEi.ai service to send the new user utterance to the interaction
+        try {
+            return post(url, text, params, headers, new TypeReference<AeiResponse>() {});
+        } catch (Exception e) {
+            System.err.println("Sending text input failed");
+            return null;
+        }
+    }
+
+    /**
+     * Analyzes a list of interactions passed as JSON.
+     *
+     * @param jsonString Interaction list as JSON string.
+     * @param accessToken Client's access token.
+     * @return Response to analyzing given list of interactions.
+     */
+    public static AeiResponse newInteractionListInput(String jsonString, String accessToken) {
+        // prepare URL
+        String url = API_URL + "/inputs/interaction-list";
+
+        // prepare headers
+        Map<String, String> headers = authHeaders(accessToken);
 
         // make an API call to the aEi.ai service to send the new user utterance to the interaction
         try {
-            return post(url, body, params, headers, new TypeReference<AeiResponse>() {});
+            return post(url, jsonString, null, headers, new TypeReference<AeiResponse>() {});
         } catch (Exception e) {
             System.err.println("Sending text input failed");
             return null;
