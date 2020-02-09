@@ -5,6 +5,7 @@ import ai.aei.response.AeiResponse;
 import ai.aei.response.ApiCallResponse;
 import ai.aei.response.AuthResponse;
 import ai.aei.response.EmotionResponse;
+import ai.aei.response.InteractionListResponse;
 import ai.aei.response.InteractionResponse;
 import ai.aei.response.MoodResponse;
 import ai.aei.response.PaymentSourceListResponse;
@@ -188,6 +189,28 @@ public class AeiApi {
             return get(url, null, headers, new TypeReference<InteractionResponse>() {});
         } catch (Exception e) {
             System.err.println("Getting interaction failed");
+            return null;
+        }
+    }
+
+    /**
+     * Gets list of all interactions of the client.
+     *
+     * @param accessToken Client's access token.
+     * @return Response to getting list of all interactions of the client.
+     */
+    public static InteractionListResponse getInteractionList(String accessToken) {
+        // prepare URL
+        String url = API_URL + "/interactions";
+
+        // prepare headers
+        Map<String, String> headers = authHeaders(accessToken);
+
+        // make an API call to the aEi.ai service to get an interaction with given ID
+        try {
+            return get(url, null, headers, new TypeReference<InteractionListResponse>() {});
+        } catch (Exception e) {
+            System.err.println("Getting list of all interactions failed");
             return null;
         }
     }
