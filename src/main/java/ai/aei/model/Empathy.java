@@ -4,14 +4,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Observer user's impression of a another (target) user.
+ * Empathy model.
  *
- * @author aEi.ai Created on 10/7/18
+ * @author aEi.ai Created on 6/10/20
  */
 @Data
 @NoArgsConstructor
-public class Impression {
-    private String observerUserId;
+public class Empathy {
     private String targetUserId;
     private Affect affect;
 }

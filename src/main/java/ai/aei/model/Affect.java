@@ -1,29 +1,19 @@
 package ai.aei.model;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * Affect model.
  *
- * @author rezaamini Created on 7/17/18
+ * @author aEi.ai Created on 7/17/18
  */
+@Data
 @NoArgsConstructor
 public class Affect {
-    @Getter
-    @Setter
     private String affectId;
-    @Getter
-    @Setter
     private Emotion emotion;
-    @Getter
-    @Setter
     private Mood mood;
-    @Getter
-    @Setter
     private Personality personality;
-    @Getter
-    @Setter
     private Satisfaction satisfaction;
 }

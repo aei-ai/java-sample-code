@@ -1,23 +1,17 @@
 package ai.aei.model;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * Response status.
  *
- * @author rezaamini Created on 1/5/20
+ * @author aEi.ai Created on 1/5/20
  */
+@Data
 @NoArgsConstructor
 public class Status {
-    @Getter
-    @Setter
     private int code;
-    @Getter
-    @Setter
     private String error;
-    @Getter
-    @Setter
     private String help;
 }

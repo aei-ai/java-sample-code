@@ -1,20 +1,16 @@
 package ai.aei.model;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * Mood model.
  *
- * @author rezaamini Created on 7/19/18
+ * @author aEi.ai Created on 7/19/18
  */
+@Data
 @NoArgsConstructor
 public class Mood {
-    @Getter
-    @Setter
     private Pad pad;
-    @Getter
-    @Setter
     private String moodName;
 }

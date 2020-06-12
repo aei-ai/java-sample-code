@@ -1,5 +1,6 @@
-package ai.aei.model;
+package ai.aei.response;
 
+import ai.aei.model.Empathy;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -7,15 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * User model.
+ * Response to the aEi.ai emotion queries.
  *
- * @author aEi.ai Created on 7/24/18
+ * @author aEi.ai Created on 6/10/20
  */
 @Data
 @NoArgsConstructor
-public class User {
+public class EmpathyResponse extends AeiResponse {
     private String userId;
-    private Affect affect;
-    private SocialPerception socialPerception;
     private List<Empathy> empathies = new ArrayList<>();
 }

@@ -1,8 +1,7 @@
 package ai.aei.model;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +9,10 @@ import java.util.List;
 /**
  * A user's social perception model.
  *
- * @author rezaamini Created on 10/11/18
+ * @author aEi.ai Created on 10/11/18
  */
+@Data
 @NoArgsConstructor
 public class SocialPerception {
-    @Getter
-    @Setter
     private List<Impression> impressions = new ArrayList<>();
 }

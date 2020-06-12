@@ -5,9 +5,11 @@ import ai.aei.response.AeiResponse;
 import ai.aei.response.ApiCallResponse;
 import ai.aei.response.AuthResponse;
 import ai.aei.response.EmotionResponse;
+import ai.aei.response.EmpathyResponse;
 import ai.aei.response.InteractionListResponse;
 import ai.aei.response.InteractionResponse;
 import ai.aei.response.MoodResponse;
+import ai.aei.response.NewInputResponse;
 import ai.aei.response.PaymentSourceListResponse;
 import ai.aei.response.PaymentSourceResponse;
 import ai.aei.response.PersonalityResponse;
@@ -42,7 +44,7 @@ import java.util.stream.Collectors;
 /**
  * aEi.ai Java API.
  *
- * @author rezaamini Created on 1/1/20
+ * @author aEi.ai Created on 1/1/20
  */
 public class AeiApi {
 
@@ -251,7 +253,7 @@ public class AeiApi {
      * @param accessToken Client's access token.
      * @return Response to sending a new text input to an interaction.
      */
-    public static AeiResponse newTextInput(String userId, String interactionId, String text, String accessToken) {
+    public static NewInputResponse newTextInput(String userId, String interactionId, String text, String accessToken) {
         // prepare URL
         String url = API_URL + "/inputs/text";
 
@@ -265,7 +267,7 @@ public class AeiApi {
 
         // make an API call to the aEi.ai service to send the new user utterance to the interaction
         try {
-            return post(url, text, params, headers, new TypeReference<AeiResponse>() {});
+            return post(url, text, params, headers, new TypeReference<NewInputResponse>() {});
         } catch (Exception e) {
             System.err.println("Sending text input failed");
             return null;
@@ -429,6 +431,33 @@ public class AeiApi {
             return get(url, null, headers, new TypeReference<SocialPerceptionResponse>() {});
         } catch (Exception e) {
             System.err.println("Getting user social-perception failed: " + userId);
+            return null;
+        }
+    }
+
+    /**
+     * Gets user's empathy towards given user ID.
+     *
+     * @param userId Given user ID.
+     * @param targetUserIds List of target user IDs.
+     * @param accessToken Client's access token.
+     * @return Response to getting the user's empathy models towards given target users.
+     */
+    public static EmpathyResponse getUserEmpathy(String userId, List<String> targetUserIds, String accessToken) {
+        // prepare URL
+        String url = API_URL + "/users/" + userId + "/empathy";
+
+        // prepare headers
+        Map<String, String> headers = authHeaders(accessToken);
+
+        // prepare parameters
+        String params = params("target_user_id", targetUserIds);
+
+        // make an API call to the aEi.ai service to get user's empathy models towards given target users
+        try {
+            return get(url + params, null, headers, new TypeReference<EmpathyResponse>() {});
+        } catch (Exception e) {
+            System.err.println("Getting user empathy failed: " + userId);
             return null;
         }
     }

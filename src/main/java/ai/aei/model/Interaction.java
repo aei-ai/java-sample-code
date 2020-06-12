@@ -1,8 +1,7 @@
 package ai.aei.model;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +9,11 @@ import java.util.List;
 /**
  * Interaction model between users.
  *
- * @author rezaamini Created on 8/12/18
+ * @author aEi.ai Created on 8/12/18
  */
+@Data
 @NoArgsConstructor
 public class Interaction {
-    @Getter
-    @Setter
     private String interactionId;
-    @Getter
-    @Setter
     private List<User> users = new ArrayList<>();
 }

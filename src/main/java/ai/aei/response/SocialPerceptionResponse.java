@@ -1,21 +1,17 @@
 package ai.aei.response;
 
 import ai.aei.model.SocialPerception;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * Response to the aEi.ai social-perception queries.
  *
- * @author rezaamini Created on 1/19/20
+ * @author aEi.ai Created on 1/19/20
  */
+@Data
 @NoArgsConstructor
 public class SocialPerceptionResponse extends AeiResponse {
-    @Getter
-    @Setter
     private String userId;
-    @Getter
-    @Setter
     private SocialPerception socialPerception;
 }

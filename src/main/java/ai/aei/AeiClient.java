@@ -5,6 +5,8 @@ import ai.aei.model.Pad;
 import ai.aei.model.User;
 import ai.aei.response.AeiResponse;
 import ai.aei.response.AuthResponse;
+import ai.aei.response.EmpathyResponse;
+import ai.aei.response.NewInputResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.List;
 /**
  * 'Hello World' sample code which demonstrates how to invoke aEi.ai Java API.
  *
- * @author rezaamini Created on 1/1/20
+ * @author aEi.ai Created on 1/1/20
  */
 public class AeiClient {
 
@@ -68,18 +70,26 @@ public class AeiClient {
 
         // send an utterance by user1 to the interaction
         String text = "I am happy";
-        AeiResponse response = AeiApi.newTextInput(user1Id, interactionId, text, accessToken);
+        NewInputResponse response = AeiApi.newTextInput(user1Id, interactionId, text, accessToken);
         if (!AeiApi.isSuccess(response.getStatus())) {
             System.exit(1);
         }
+        System.out.printf("Rapport [%s]\n", response.getRapport());
+
+        // NOTICE: user1 says she is happy, and user2 empathizes with her (e.g., check out her empathy towards user1)
+        // get user2's empathy towards user1
+        List<String> targetUserIds = new ArrayList<>();
+        targetUserIds.add(user1Id);
+        EmpathyResponse empathyResponse = AeiApi.getUserEmpathy(user2Id, targetUserIds, accessToken);
+        System.out.printf("User2 empathy towards user1: [%s]\n", empathyResponse.getEmpathies().get(0));
 
         // get all user models
         List<User> users = AeiApi.getUserList(accessToken).getUsers();
         // NOTICE: user1 says she is happy, and user2 empathizes with her (e.g., check out emotion pleasure scores)
-        for(User user : users) {
+        for (User user : users) {
             Pad pad = user.getAffect().getEmotion().getPad();
             System.out.printf("User[%s] ", user.getUserId());
-            System.out.printf("Emotion PAD: (%1.2f, %1.2f, %1.2f)\n", pad.getPleasure(), pad.getArousal(), pad.getDominance());
+            System.out.printf("Emotion PAD: [%s]\n", pad);
         }
 
         // check how many free queries you've made until now
