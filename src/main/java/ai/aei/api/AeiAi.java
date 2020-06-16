@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
  *
  * @author aEi.ai Created on 1/1/20
  */
-public class AeiApi {
+public class AeiAi {
 
     private static final CloseableHttpClient httpClient = HttpClients.createDefault();
     private static final String AEI_AI_URL = "https://aei.ai";

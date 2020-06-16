@@ -1,6 +1,6 @@
 package ai.aei;
 
-import ai.aei.api.AeiApi;
+import ai.aei.api.AeiAi;
 import ai.aei.model.Pad;
 import ai.aei.model.User;
 import ai.aei.response.AeiResponse;
@@ -38,24 +38,24 @@ public class AeiClient {
 
         // register a new user (if you don't have an account in aEi.ai yet)
         if (!REGISTERED) {
-            AeiResponse response = AeiApi.register(USERNAME, EMAIL, PASSWORD, true);
-            if (!AeiApi.isSuccess(response.getStatus())) {
+            AeiResponse response = AeiAi.register(USERNAME, EMAIL, PASSWORD, true);
+            if (!AeiAi.isSuccess(response.getStatus())) {
                 System.exit(1);
             }
         }
 
         // login (authentication)
-        AuthResponse authResponse = AeiApi.login(USERNAME, PASSWORD);
+        AuthResponse authResponse = AeiAi.login(USERNAME, PASSWORD);
         String accessToken = authResponse.getAccess_token();
         System.out.println("Access token: " + accessToken);
 
         // create two users
         if (user1Id == null) {
-            user1Id = AeiApi.createNewUser(null, accessToken).getUser().getUserId();
+            user1Id = AeiAi.createNewUser(null, accessToken).getUser().getUserId();
             System.out.println("User1 ID: " + user1Id);
         }
         if (user2Id == null) {
-            user2Id = AeiApi.createNewUser(null, accessToken).getUser().getUserId();
+            user2Id = AeiAi.createNewUser(null, accessToken).getUser().getUserId();
             System.out.println("User2 ID: " + user2Id);
         }
 
@@ -64,14 +64,14 @@ public class AeiClient {
             List<String> userIds = new ArrayList<>();
             userIds.add(user1Id);
             userIds.add(user2Id);
-            interactionId = AeiApi.createNewInteraction(userIds, accessToken).getInteraction().getInteractionId();
+            interactionId = AeiAi.createNewInteraction(userIds, accessToken).getInteraction().getInteractionId();
             System.out.println("Interaction ID: " + interactionId);
         }
 
         // send an utterance by user1 to the interaction
         String text = "I am happy";
-        NewInputResponse response = AeiApi.newTextInput(user1Id, interactionId, text, accessToken);
-        if (!AeiApi.isSuccess(response.getStatus())) {
+        NewInputResponse response = AeiAi.newTextInput(user1Id, interactionId, text, accessToken);
+        if (!AeiAi.isSuccess(response.getStatus())) {
             System.exit(1);
         }
         System.out.printf("Rapport [%s]\n", response.getRapport());
@@ -80,11 +80,11 @@ public class AeiClient {
         // get user2's empathy towards user1
         List<String> targetUserIds = new ArrayList<>();
         targetUserIds.add(user1Id);
-        EmpathyResponse empathyResponse = AeiApi.getUserEmpathy(user2Id, targetUserIds, accessToken);
+        EmpathyResponse empathyResponse = AeiAi.getUserEmpathy(user2Id, targetUserIds, accessToken);
         System.out.printf("User2 empathy towards user1: [%s]\n", empathyResponse.getEmpathies().get(0));
 
         // get all user models
-        List<User> users = AeiApi.getUserList(accessToken).getUsers();
+        List<User> users = AeiAi.getUserList(accessToken).getUsers();
         // NOTICE: user1 says she is happy, and user2 empathizes with her (e.g., check out emotion pleasure scores)
         for (User user : users) {
             Pad pad = user.getAffect().getEmotion().getPad();
@@ -93,7 +93,7 @@ public class AeiClient {
         }
 
         // check how many free queries you've made until now
-        long queries = AeiApi.getUsedFreeQueries(accessToken).getQueries();
+        long queries = AeiAi.getUsedFreeQueries(accessToken).getQueries();
         System.out.println("Free queries: " + queries);
     }
 }
