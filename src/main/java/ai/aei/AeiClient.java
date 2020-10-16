@@ -70,7 +70,15 @@ public class AeiClient {
 
         // send an utterance by user1 to the interaction
         String text = "I am happy";
-        NewInputResponse response = AeiAi.newTextInput(user1Id, interactionId, text, accessToken);
+        NewInputResponse response = AeiAi.sendText(user1Id, interactionId, text, accessToken);
+        if (!AeiAi.isSuccess(response.getStatus())) {
+            System.exit(1);
+        }
+        System.out.printf("Rapport [%s]\n", response.getRapport());
+
+        // send an image input by user1 to the interaction
+        String image = "https://aei.ai/img/faces.jpg";
+        response = AeiAi.sendImage(user1Id, interactionId, image, accessToken);
         if (!AeiAi.isSuccess(response.getStatus())) {
             System.exit(1);
         }

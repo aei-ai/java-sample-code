@@ -244,6 +244,7 @@ public class AeiAi {
         }
     }
 
+
     /**
      * Sends given user's text to given interaction.
      *
@@ -253,7 +254,7 @@ public class AeiAi {
      * @param accessToken Client's access token.
      * @return Response to sending a new text input to an interaction.
      */
-    public static NewInputResponse newTextInput(String userId, String interactionId, String text, String accessToken) {
+    public static NewInputResponse sendText(String userId, String interactionId, String text, String accessToken) {
         // prepare URL
         String url = API_URL + "/inputs/text";
 
@@ -275,24 +276,54 @@ public class AeiAi {
     }
 
     /**
+     * Sends given user's image input to given interaction.
+     *
+     * @param userId Source user ID.
+     * @param interactionId Target interaction ID.
+     * @param image User's input image URL.
+     * @param accessToken Client's access token.
+     * @return Response to sending a new image input to an interaction.
+     */
+    public static NewInputResponse sendImage(String userId, String interactionId, String image, String accessToken) {
+        // prepare URL
+        String url = API_URL + "/inputs/image";
+
+        // prepare headers
+        Map<String, String> headers = authHeaders(accessToken);
+
+        // prepare parameters
+        Map<String, String> params = new HashMap<>();
+        params.put("user_id", userId);
+        params.put("interaction_id", interactionId);
+
+        // make an API call to the aEi.ai service to send the new image input to the interaction
+        try {
+            return post(url, image, params, headers, new TypeReference<NewInputResponse>() {});
+        } catch (Exception e) {
+            System.err.println("Sending image input failed");
+            return null;
+        }
+    }
+
+    /**
      * Analyzes a list of interactions passed as JSON.
      *
-     * @param jsonString Interaction list as JSON string.
+     * @param inputs Interaction list as JSON string.
      * @param accessToken Client's access token.
      * @return Response to analyzing given list of interactions.
      */
-    public static AeiResponse newInteractionListInput(String jsonString, String accessToken) {
+    public static AeiResponse sendInputs(String inputs, String accessToken) {
         // prepare URL
-        String url = API_URL + "/inputs/interaction-list";
+        String url = API_URL + "/inputs";
 
         // prepare headers
         Map<String, String> headers = authHeaders(accessToken);
 
         // make an API call to the aEi.ai service to send the new user utterance to the interaction
         try {
-            return post(url, jsonString, null, headers, new TypeReference<AeiResponse>() {});
+            return post(url, inputs, null, headers, new TypeReference<AeiResponse>() {});
         } catch (Exception e) {
-            System.err.println("Sending text input failed");
+            System.err.println("Sending inputs failed");
             return null;
         }
     }
